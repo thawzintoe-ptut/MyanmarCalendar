@@ -9,6 +9,7 @@ import com.example.myanmarcalendar.base.BaseRecyclerViewAdapter
 import com.example.myanmarcalendar.base.BaseViewHolder
 import com.example.myanmarcalendar.base.diffCallBackWith
 import com.example.myanmarcalendar.databinding.ItemDayViewBinding
+import com.example.myanmarcalendar.mmCalendar.format.MoonPhaseType
 
 class CalendarDayRecyclerAdapter : BaseRecyclerViewAdapter<CalendarVO, CalendarDayViewHolder>(
     diffCallback = diffCallBackWith(
@@ -36,14 +37,16 @@ class CalendarDayViewHolder(
 
         binding.txtEngDay.text = item.engDayNumber
         binding.txtPublicHoliday.text = item.publicHoliday
+        if (item.publicHoliday.isNotEmpty()) {
+            binding.linePublicHoliday.visibility = View.VISIBLE
+        } else {
+            binding.linePublicHoliday.visibility = View.GONE
+        }
         when (item.moonPhaseType) {
             MoonPhaseType.LA_PYAE -> setLaPyae()
             MoonPhaseType.LA_KWEL -> setLaKwel()
             MoonPhaseType.NONE -> setNormalMMDay(item.mmDayNumber)
         }
-//        binding.linePublicHoliday.setBackgroundColor(
-//            Color.parseColor("${item.color}")
-//        )
     }
 
     private fun setLaPyae() {
@@ -55,6 +58,12 @@ class CalendarDayViewHolder(
                 R.drawable.ic_la_pyae
             )
         )
+        binding.linePublicHoliday.setBackgroundColor(
+            ContextCompat.getColor(
+                itemView.context,
+                (R.color.teal_700)
+            )
+        )
     }
 
     private fun setLaKwel() {
@@ -64,6 +73,12 @@ class CalendarDayViewHolder(
             ContextCompat.getDrawable(
                 itemView.context,
                 R.drawable.ic_la_kwel
+            )
+        )
+        binding.linePublicHoliday.setBackgroundColor(
+            ContextCompat.getColor(
+                itemView.context,
+                (R.color.close_office_color)
             )
         )
     }

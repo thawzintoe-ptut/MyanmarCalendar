@@ -1,4 +1,4 @@
-package com.example.myanmarcalendar.mmCalendar
+package com.example.myanmarcalendar.mmCalendar.format
 
 enum class DayEnum(val position: Int,val day : String) {
     SUN(0,"Sunday"),

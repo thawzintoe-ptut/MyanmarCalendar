@@ -1,8 +1,6 @@
 package com.example.myanmarcalendar.mmCalendar
 
-import org.threeten.bp.LocalDate
-import java.util.*
-import kotlin.collections.HashSet
+import com.example.myanmarcalendar.mmCalendar.format.MoonPhaseType
 
 data class CalendarVO(
     val engDayNumber:String,
@@ -13,9 +11,4 @@ data class CalendarVO(
     val moonPhaseType: MoonPhaseType
 )
 
-enum class MoonPhaseType{
-    LA_PYAE,
-    LA_KWEL,
-    NONE
-}
 

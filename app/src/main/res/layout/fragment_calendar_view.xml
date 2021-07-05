@@ -15,7 +15,9 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#24CBA8" />
+            android:background="@color/teal_200"
+            app:title="မြန်မာပြက္ခဒိန်"
+            app:titleTextColor="@color/white"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/toolbar_calendar_header"
