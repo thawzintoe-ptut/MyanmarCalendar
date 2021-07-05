@@ -14,7 +14,7 @@ import com.example.myanmarcalendar.mmCalendar.format.MoonPhaseType
 class CalendarDayRecyclerAdapter : BaseRecyclerViewAdapter<CalendarVO, CalendarDayViewHolder>(
     diffCallback = diffCallBackWith(
         areContentsTheSame = { oldItemId, newItemId ->
-            oldItemId == newItemId
+            oldItemId.engDayNumber == newItemId.engDayNumber
         },
         areItemTheSame = { oldItem, newItem ->
             oldItem == newItem
