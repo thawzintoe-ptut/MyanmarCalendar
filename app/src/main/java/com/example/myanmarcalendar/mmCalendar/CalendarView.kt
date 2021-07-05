@@ -76,7 +76,7 @@ class CalendarView:DialogFragment(),View.OnClickListener {
         }
         val calendar = LocalDate.of(date.year, date.month, 1)
         val startDate = calendar.withDayOfMonth(1).dayOfWeek
-//        val endDate = calendar.withDayOfMonth(calendar.lengthOfMonth()).dayOfWeek
+        /*val endDate = calendar.withDayOfMonth(calendar.lengthOfMonth()).dayOfWeek*/
         checkStartDatePosition(startDate)
         engDateList = tmpEngDateList.apply { addAll(engDateList) }
         engDateList.forEach { engDate ->
