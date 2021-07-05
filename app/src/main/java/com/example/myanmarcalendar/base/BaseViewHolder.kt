@@ -1,8 +1,7 @@
-package com.example.myanmarcalendar.mmCalendar
+package com.example.myanmarcalendar.base
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myanmarcalendar.base.RecyclerViewItemClickListener
 
 abstract class BaseViewHolder<itemType> protected constructor(
     itemView: View,

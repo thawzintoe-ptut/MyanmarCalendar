@@ -9,6 +9,13 @@ data class CalendarVO(
     val mmDayNumber:String,
     val publicHoliday:String,
     val color:String,
-    val event:String
+    val event:String,
+    val moonPhaseType: MoonPhaseType
 )
+
+enum class MoonPhaseType{
+    LA_PYAE,
+    LA_KWEL,
+    NONE
+}
 

@@ -44,13 +44,17 @@ class CalendarView:DialogFragment(),View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvCalendarView.layoutManager = GridLayoutManager(requireContext(),7)
+        binding.rvCalendarView.layoutManager = GridLayoutManager(requireContext(), 7)
         binding.rvCalendarView.hasFixedSize()
         binding.rvCalendarView.adapter = calendarAdapter
         changeDate(today)
 
 
-        binding.calendarEngTitle.text = "${today.month} ${today.year}"
+        binding.calendarEngTitle.text = String.format(
+            getString(R.string.date_month_year_format),
+            "${today.month}",
+            "${today.year}"
+        )
         binding.calendarPrevButton.setOnClickListener(this)
         binding.calendarNextButton.setOnClickListener(this)
     }
@@ -73,18 +77,50 @@ class CalendarView:DialogFragment(),View.OnClickListener {
         }
         engDateList = tmpEngDateList.apply { addAll(engDateList) }
         engDateList.forEach {
-           if(it.isNotEmpty()){
-                 val myanmarDay = MyanmarDateConverter.convert(date.year,date.monthValue+1,it.toInt())
-//               if(myanmarDay.moonPhase == 1 && myanmarDay.moonPhase == 3)
+            if (it.isNotEmpty()) {
+                val myanmarDay =
+                    MyanmarDateConverter.convert(date.year, date.monthValue , it.toInt())
+                if (myanmarDay.moonPhraseInt == 1 || myanmarDay.moonPhraseInt == 3) {
+                    if (myanmarDay.moonPhraseInt == 1) {
+                        dateList.add(
+                            CalendarVO(
+                                it,
+                                myanmarDay.fortnightDay,
+                                "",
+                                "",
+                                "",
+                                MoonPhaseType.LA_PYAE
+                            )
+                        )
+                    } else {
+                        dateList.add(
+                            CalendarVO(
+                                it,
+                                myanmarDay.fortnightDay,
+                                "",
+                                "",
+                                "",
+                                MoonPhaseType.LA_KWEL
+                            )
+                        )
+                    }
+                } else {
+                    dateList.add(
+                        CalendarVO(
+                            it,
+                            myanmarDay.fortnightDay,
+                            "",
+                            "",
+                            "",
+                            MoonPhaseType.NONE
+                        )
+                    )
+                }
+            } else {
                 dateList.add(
-                    CalendarVO(it,myanmarDay.fortnightDay,"","","")
+                    CalendarVO(it, "", "", "", "", MoonPhaseType.NONE)
                 )
-            }else{
-               dateList.add(
-                   CalendarVO(it,"","","","")
-               )
             }
-
         }
         calendarAdapter.submitList(dateList)
     }
@@ -97,7 +133,11 @@ class CalendarView:DialogFragment(),View.OnClickListener {
                 dateList.clear()
                 startEngDate = startEngDate.minusMonths(1)
                 changeDate(startEngDate)
-                binding.calendarEngTitle.text = "${startEngDate.month} ${startEngDate.year}"
+                binding.calendarEngTitle.text = String.format(
+                    getString(R.string.date_month_year_format),
+                    "${startEngDate.month}",
+                    "${startEngDate.year}"
+                )
                 calendarAdapter.notifyDataSetChanged()
 
             }
@@ -107,7 +147,11 @@ class CalendarView:DialogFragment(),View.OnClickListener {
                 dateList.clear()
                 startEngDate = startEngDate.plusMonths(1)
                 changeDate(startEngDate)
-                binding.calendarEngTitle.text = "${startEngDate.month} ${startEngDate.year}"
+                binding.calendarEngTitle.text = String.format(
+                    getString(R.string.date_month_year_format),
+                    "${startEngDate.month}",
+                    "${startEngDate.year}"
+                )
                 calendarAdapter.notifyDataSetChanged()
             }
         }

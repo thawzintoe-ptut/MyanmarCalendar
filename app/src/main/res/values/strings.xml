@@ -34,4 +34,5 @@
         <item>30</item>
         <item>31</item>
     </string-array>
+    <string name="date_month_year_format">%1s %2s</string>
 </resources>

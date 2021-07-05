@@ -1,4 +1,4 @@
-package com.example.myanmarcalendar.mmCalendar
+package com.example.myanmarcalendar.base
 
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
