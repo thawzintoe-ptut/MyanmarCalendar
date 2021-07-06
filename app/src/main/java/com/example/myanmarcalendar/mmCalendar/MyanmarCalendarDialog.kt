@@ -12,19 +12,22 @@ import com.example.myanmarcalendar.mmCalendar.format.DayEnum
 import com.example.myanmarcalendar.mmCalendar.format.MonthClickType
 import com.example.myanmarcalendar.mmCalendar.format.MoonPhaseType
 import com.example.myanmarcalendar.mmCalendar.utils.DateUtils
+import com.example.myanmarcalendar.mmCalendar.utils.MyanmarMonthShortMapper
 import mmcalendar.MyanmarDate
 import mmcalendar.MyanmarDateConverter
 import org.threeten.bp.DayOfWeek
 import org.threeten.bp.LocalDate
 import java.util.*
 
-class CalendarView:DialogFragment(),View.OnClickListener {
+class MyanmarCalendarDialog : DialogFragment(), View.OnClickListener {
     private lateinit var binding: FragmentCalendarViewBinding
     private var startPosition: Int = -1
     private val tmpEngDateList = mutableListOf<String>()
     private var engDateList = mutableListOf<String>()
     private var dateList = mutableListOf<CalendarVO>()
     private var startEngDate = LocalDate.now()
+    private var isFinishLaSan = false
+    private var isFinishLaSote = false
     private val calendarAdapter by lazy { CalendarDayRecyclerAdapter() }
     private val toDate by lazy { LocalDate.now() }
 
@@ -39,7 +42,7 @@ class CalendarView:DialogFragment(),View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL,android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        setStyle(STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,7 +89,7 @@ class CalendarView:DialogFragment(),View.OnClickListener {
                 checkMoonPhase(myanmarDate, engDate)
             } else {
                 dateList.add(
-                    CalendarVO(engDate, "", "", "", "", MoonPhaseType.NONE)
+                    CalendarVO(engDate, "", "", "", "", "", MoonPhaseType.NONE)
                 )
             }
         }
@@ -119,35 +122,107 @@ class CalendarView:DialogFragment(),View.OnClickListener {
      * Check Burmese day for LA_PYAE or LA_KWEL
      */
     private fun checkMoonPhase(myanmarDate: MyanmarDate, engDate: String) {
-        if (myanmarDate.moonPhraseInt == 1 || myanmarDate.moonPhraseInt == 3) {
-            if (myanmarDate.moonPhraseInt == 1) {
-                dateList.add(
-                    CalendarVO(
-                        engDate,
-                        myanmarDate.fortnightDay,
-                        "လပြည့်",
-                        "",
-                        "",
-                        MoonPhaseType.LA_PYAE
+        if (myanmarDate.moonPhraseInt == 1 || myanmarDate.moonPhraseInt == 3 ||
+            myanmarDate.moonPhraseInt == 0 || myanmarDate.moonPhraseInt == 2
+        ) {
+            when (myanmarDate.moonPhraseInt) {
+                0 -> {
+                    if (!isFinishLaSan) {
+                        dateList.add(
+                            CalendarVO(
+                                engDate,
+                                myanmarDate.fortnightDay,
+                                "",
+                                String.format(
+                                    getString(R.string.txt_date_sane_format),
+                                    MyanmarMonthShortMapper.shortMap(myanmarDate.monthName)
+                                ),
+                                "",
+                                "",
+                                MoonPhaseType.LA_SAN
+                            )
+                        )
+                        isFinishLaSan = true
+                    } else {
+                        dateList.add(
+                            CalendarVO(
+                                engDate,
+                                myanmarDate.fortnightDay,
+                                "",
+                                "",
+                                "",
+                                "",
+                                MoonPhaseType.NONE
+                            )
+                        )
+                    }
+                }
+                1 -> {
+                    dateList.add(
+                        CalendarVO(
+                            engDate,
+                            myanmarDate.fortnightDay,
+                            "လပြည့်",
+                            "",
+                            "",
+                            "",
+                            MoonPhaseType.LA_PYAE
+                        )
                     )
-                )
-            } else {
-                dateList.add(
-                    CalendarVO(
-                        engDate,
-                        myanmarDate.fortnightDay,
-                        "လကွယ်",
-                        "",
-                        "",
-                        MoonPhaseType.LA_KWEL
+                    isFinishLaSote = false
+                }
+                2 -> {
+                    if (!isFinishLaSote) {
+                        dateList.add(
+                            CalendarVO(
+                                engDate,
+                                myanmarDate.fortnightDay,
+                                "",
+                                String.format(
+                                    getString(R.string.txt_date_sote_format),
+                                    MyanmarMonthShortMapper.shortMap(myanmarDate.monthName)
+                                ),
+                                "",
+                                "",
+                                MoonPhaseType.LA_SOTE
+                            )
+                        )
+                        isFinishLaSote = true
+                    } else {
+                        dateList.add(
+                            CalendarVO(
+                                engDate,
+                                myanmarDate.fortnightDay,
+                                "",
+                                "",
+                                "",
+                                "",
+                                MoonPhaseType.NONE
+                            )
+                        )
+                    }
+                }
+                3 -> {
+                    dateList.add(
+                        CalendarVO(
+                            engDate,
+                            myanmarDate.fortnightDay,
+                            "လကွယ်",
+                            "",
+                            "",
+                            "",
+                            MoonPhaseType.LA_KWEL
+                        )
                     )
-                )
+                    isFinishLaSan = false
+                }
             }
         } else {
             dateList.add(
                 CalendarVO(
                     engDate,
                     myanmarDate.fortnightDay,
+                    "",
                     "",
                     "",
                     "",

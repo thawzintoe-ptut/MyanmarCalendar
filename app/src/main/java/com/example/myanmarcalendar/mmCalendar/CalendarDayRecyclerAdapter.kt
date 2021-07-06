@@ -45,6 +45,8 @@ class CalendarDayViewHolder(
         when (item.moonPhaseType) {
             MoonPhaseType.LA_PYAE -> setLaPyae()
             MoonPhaseType.LA_KWEL -> setLaKwel()
+            MoonPhaseType.LA_SAN -> setLaSoteSan(item.mmMonthName)
+            MoonPhaseType.LA_SOTE -> setLaSoteSan(item.mmMonthName)
             MoonPhaseType.NONE -> setNormalMMDay(item.mmDayNumber)
         }
     }
@@ -82,6 +84,14 @@ class CalendarDayViewHolder(
             )
         )
     }
+
+    private fun setLaSoteSan(mmMonth:String){
+        binding.txtMmDay.visibility = View.GONE
+        binding.ivMoonPhase.visibility = View.GONE
+        binding.txtMmSoteSan.visibility = View.VISIBLE
+        binding.txtMmSoteSan.text = mmMonth
+    }
+
 
     private fun setNormalMMDay(mmDayNumber: String) {
         binding.txtMmDay.text = mmDayNumber

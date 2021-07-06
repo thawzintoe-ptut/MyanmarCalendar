@@ -35,4 +35,8 @@
         <item>31</item>
     </string-array>
     <string name="date_month_year_format">%1s %2s</string>
+    <string name="txt_la_san">La San</string>
+    <string name="txt_la_sote">La Sote</string>
+    <string name="txt_date_sane_format">%1sဆန်း</string>
+    <string name="txt_date_sote_format">%1sဆုတ်</string>
 </resources>
